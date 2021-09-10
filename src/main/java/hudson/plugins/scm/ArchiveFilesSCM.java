@@ -318,15 +318,12 @@ public class ArchiveFilesSCM extends SCM {
 						listener.getLogger().println(
 								"Compression type is zip/jar/war");
 						workspace.unzipFrom(is);
-						workspace.list().get(0).moveAllChildrenTo(workspace);
 					} else if (url.toExternalForm().endsWith(".gz")) {
 						listener.getLogger().println("Compression type is gz");
 						workspace.untarFrom(is, GZIP);
-						workspace.list().get(0).moveAllChildrenTo(workspace);
 					} else if (url.toExternalForm().endsWith(".tar")) {
 						listener.getLogger().println("Compression type is tar");
 						workspace.untarFrom(is, NONE);
-						workspace.list().get(0).moveAllChildrenTo(workspace);
 					} else {
 						listener.getLogger()
 								.println(
@@ -334,6 +331,10 @@ public class ArchiveFilesSCM extends SCM {
 						listener.getLogger().println(workspace.child(fileName).getName());
 						workspace.child(fileName).copyFrom(is);
 					}
+
+					// If zip is packaged with a parent directory, move children up to workspace and remove directory
+					if (workspace.list().size() == 1 && workspace.list().get(0).isDirectory())
+						workspace.list().get(0).moveAllChildrenTo(workspace);
 
 					listener.getLogger().println(
 							"Downloaded " + urlString + " to "
