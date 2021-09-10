@@ -203,7 +203,6 @@ public class ArchiveFilesSCM extends SCM {
 			File changelogFile,
 			@CheckForNull final SCMRevisionState baseline) throws IOException, InterruptedException {
 		LOGGER.log(ALL, "checkout() Enter >>>");
-		listener.getLogger().println(clearWorkspace);
 
 		if (clearWorkspace) {
 			workspace.deleteContents();
