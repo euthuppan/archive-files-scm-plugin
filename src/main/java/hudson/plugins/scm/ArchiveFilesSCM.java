@@ -210,19 +210,20 @@ public class ArchiveFilesSCM extends SCM {
 		}
 		long start = System.currentTimeMillis();
 		LastModifiedDateAction action = new LastModifiedDateAction(run);
+		/*
 		Hudson h = Hudson.getInstance(); // this code might run on slaves
+
 
 		ProxyConfiguration proxyConfiguration = h != null ? h.proxy : null;
 		String proxyUserName = null;
 		String proxyPassword = null;
-		// Set to null for now always, logic is too generic about using a proxy that may not work for the request
-		proxyConfiguration = null;
 		if (proxyConfiguration != null
 				&& proxyConfiguration.getUserName() != null
 				&& proxyConfiguration.getUserName().trim().length() > 0) {
 			proxyUserName = proxyConfiguration.getUserName();
 			proxyPassword = proxyConfiguration.getPassword();
 		}
+		 */
 
 
 		for (URLTuple tuple : urls) {
@@ -241,7 +242,8 @@ public class ArchiveFilesSCM extends SCM {
 				}
 
 				URL url = new URL(urlString);
-
+				connection = url.openConnection();
+				/*
 				if (proxyConfiguration == null) {
 					listener.getLogger().println("Proxy is not configured");
 					connection = url.openConnection();
@@ -282,7 +284,10 @@ public class ArchiveFilesSCM extends SCM {
 														+ ":" + proxyPassword)
 														.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8));
 					}
+
 				}
+				*/
+
 				// Do not use cached file
 				connection.setUseCaches(false);
 
@@ -291,6 +296,7 @@ public class ArchiveFilesSCM extends SCM {
 				action.setLastModified(urlString, connection.getLastModified());
 
 				long sourceLastUpdatedTimestamp = connection.getLastModified();
+
 				File f = new File(url.getPath());
 				String fileName = f.getName();
 				// creating a timestamp file which will be used to see if source
