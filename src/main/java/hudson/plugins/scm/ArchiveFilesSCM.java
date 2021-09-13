@@ -215,6 +215,8 @@ public class ArchiveFilesSCM extends SCM {
 		ProxyConfiguration proxyConfiguration = h != null ? h.proxy : null;
 		String proxyUserName = null;
 		String proxyPassword = null;
+		// Set to null for now always, logic is too generic about using a proxy that may not work for the request
+		proxyConfiguration = null;
 		if (proxyConfiguration != null
 				&& proxyConfiguration.getUserName() != null
 				&& proxyConfiguration.getUserName().trim().length() > 0) {
